@@ -2,30 +2,37 @@ from distutils.command.upload import upload
 from operator import mod
 from pyexpat import model
 from statistics import mode
+from unicodedata import category
 from django.db import models
 from datetime import datetime
 from django.template.defaultfilters import slugify
 # Create your models here.
 
-class Categories(models.TextChoices):
-    WORLD = 'world'
-    ENVIRONMENT = 'environment'
-    TECHNOLOGY = 'techonology'
-    DESIGN = 'design'
-    CULTURE = 'culture'
-    BUSINESS = 'business'
-    POLITICS = 'politics'
-    OPINION = 'opinion'
-    SCIENCE = 'science'
-    HEALTH = 'health'
-    STYLE = 'style'
-    TRAVEL = 'travel'
+# class Categories(models.TextChoices):
+#     WORLD = 'world'
+#     ENVIRONMENT = 'environment'
+#     TECHNOLOGY = 'techonology'
+#     DESIGN = 'design'
+#     CULTURE = 'culture'
+#     BUSINESS = 'business'
+#     POLITICS = 'politics'
+#     OPINION = 'opinion'
+#     SCIENCE = 'science'
+#     HEALTH = 'health'
+#     STYLE = 'style'
+#     TRAVEL = 'travel'
 
+class Categories(models.Model):
+    name = models.CharField(max_length=30)
+
+    def __str__(self):
+        return self.name
 
 class BlogPost(models.Model):
     title = models.CharField(max_length=50)
     slug = models.SlugField()
-    category = models.CharField(max_length=50, choices=Categories.choices, default=Categories.WORLD)
+    # category = models.CharField(max_length=50, choices=Categories.choices, default=Categories.WORLD)
+    category = models.ForeignKey(Categories, on_delete=models.CASCADE)
     thumbnail = models.ImageField(upload_to = 'photos/%Y/%m/%d/')
     excerpt = models.CharField(max_length=150)
     month = models.CharField(max_length=3)

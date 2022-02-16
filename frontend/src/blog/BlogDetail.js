@@ -33,10 +33,11 @@ const BlogDetail = (props) => {
         }
     };
 
+
     return(
         <div className='container ml-3'>
             <h1 className='display-2'>{blog.title}</h1>
-            <h2 className='text-muted mt-3'>Category: {capitalizeFirstLetter(blog.category)}</h2>
+            <h2 className='text-muted mt-3'>Category: {capitalizeFirstLetter(blog.category_value)}</h2>
             <h4>{blog.month} {blog.day}</h4>
             <div className='mt-5 mb-5' dangerouslySetInnerHTML={createBlog()}/>
             <hr/>

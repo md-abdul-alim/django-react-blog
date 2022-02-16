@@ -1,17 +1,20 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios'
 import {Link} from 'react-router-dom';
-import { useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router-dom';
+import Search from './search'
+import CategoryNavbar from './CategoryNavbar';
 
-const Category = () => {
+const CategoryWiseList = () => {
     const [blogs, setBlogs] = useState([]);
-    const [currentCategory, setCurrentCategory] = useState('')
+    // const [currentCategory, setCurrentCategory] = useState('')
 
     const location = useLocation()
     const { category } = location.state
+    console.log("receive cat: ", category)
 
     useEffect(() => {
-        setCurrentCategory(capitalizeFirstLetter(category))
+        // setCurrentCategory(capitalizeFirstLetter(category))
 
         const config = {
             headers: {
@@ -47,7 +50,7 @@ const Category = () => {
             return list.push(
                 <div className="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
                     <div className="col p-4 d-flex flex-column position-static">
-                        <strong className="d-inline-block mb-2 text-primary">{blogPost.category}</strong>
+                        <strong className="d-inline-block mb-2 text-primary">{capitalizeFirstLetter(blogPost.category_value)}</strong>
                         <h3 className="mb-0">{blogPost.title}</h3>
                         <div className="mb-1 text-muted">{blogPost.month} {blogPost.day}</div>
                         <p className="card-text mb-auto">{blogPost.excerpt}</p>
@@ -77,26 +80,9 @@ const Category = () => {
 
     return(
         <div className='container mt-3'>
-            <h3 className='display-4'>{currentCategory} Category</h3>
-            <div className="nav-scroller py-1 mb-2">
-                <nav className="nav d-flex justify-content-between">
-                <Link className="p-2 text-muted" to="/category/world" state={{ category: 'World' }}>World</Link>
-                <Link className="p-2 text-muted" to="/category/environment">Environment</Link>
-                <Link className="p-2 text-muted" to="/category/technology">Technology</Link>
-                <Link className="p-2 text-muted" to="/category/design">Design</Link>
-                <Link className="p-2 text-muted" to="/category/culture">Culture</Link>
-                <Link className="p-2 text-muted" to="/category/business" state={{ category: 'BUSINESS' }}>Business</Link>
-                <Link className="p-2 text-muted" to="/category/politics">Politics</Link>
-                <Link className="p-2 text-muted" to="/category/opinion">Opinion</Link>
-                <Link className="p-2 text-muted" to="/category/science">Science</Link>
-                <Link className="p-2 text-muted" to="/category/health">Health</Link>
-                <Link className="p-2 text-muted" to="/category/style">Style</Link>
-                <Link className="p-2 text-muted" to="/category/travel">Travel</Link>
-                </nav>
-            </div>
             {getCategoryBlogs()}
         </div>
     )
 };
 
-export default Category;
+export default CategoryWiseList;

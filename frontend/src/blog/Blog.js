@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {Link} from 'react-router-dom';
 import axios from 'axios';
+import { Grid } from "@material-ui/core";
 
 const Blog = () => {
     const [blogs, setBlogs] = useState([]);
@@ -10,7 +11,7 @@ const Blog = () => {
         const fetchData = async () =>{
             try{
                 const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/blog/featured`);
-                setFeaturedBlog(res.data);
+                setFeaturedBlog(res.data[0]);
             }catch(err){
 
             }
@@ -38,7 +39,7 @@ const Blog = () => {
             return list.push(
                 <div className="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
                     <div className="col p-4 d-flex flex-column position-static">
-                        <strong className="d-inline-block mb-2 text-primary">{blogPost.category}</strong>
+                        <strong className="d-inline-block mb-2 text-primary">{blogPost.category_value}</strong>
                         <h3 className="mb-0">{blogPost.title}</h3>
                         <div className="mb-1 text-muted">{blogPost.month} {blogPost.day}</div>
                         <p className="card-text mb-auto">{blogPost.excerpt}</p>
@@ -69,35 +70,15 @@ const Blog = () => {
 
     return(
         <div className='container mt-3'>
-            <div className="nav-scroller py-1 mb-2">
-                <nav className="nav d-flex justify-content-between">
-                <Link className="p-2 text-muted" to="/category/world" state={{ category: 'World' }}>World</Link>
-                <Link className="p-2 text-muted" to="/category/environment">Environment</Link>
-                <Link className="p-2 text-muted" to="/category/technology">Technology</Link>
-                <Link className="p-2 text-muted" to="/category/design">Design</Link>
-                <Link className="p-2 text-muted" to="/category/culture">Culture</Link>
-                <Link className="p-2 text-muted" to="/category/business" state={{ category: 'BUSINESS' }}>Business</Link>
-                <Link className="p-2 text-muted" to="/category/politics">Politics</Link>
-                <Link className="p-2 text-muted" to="/category/opinion">Opinion</Link>
-                <Link className="p-2 text-muted" to="/category/science">Science</Link>
-                <Link className="p-2 text-muted" to="/category/health">Health</Link>
-                <Link className="p-2 text-muted" to="/category/style">Style</Link>
-                <Link className="p-2 text-muted" to="/category/travel">Travel</Link>
-                </nav>
-            </div>
-
-            <div className="jumbotron p-4 p-md-5 text-white rounded bg-dark">
+            {/* <div className="jumbotron p-4 p-md-5 text-white rounded bg-dark">
                 <div className="col-md-6 px-0">
                     <h1 className="display-4 font-italic">{featuredBlog.title}</h1>
                     <p className="lead my-3">{featuredBlog.excerpt}</p>
                     <p className="lead mb-0">
-                        <Link to={`/blog/${featuredBlog.slug}`} className="text-white font-weight-bold" >
-                            Continue reading...
-                        </Link>
+                        <Link to={`/blog/${featuredBlog.slug}`} state={{ slug: featuredBlog.slug }} className="stretched-link">Continue reading</Link>
                     </p>
                 </div>
-            </div>
-
+            </div> */}
             {getBlogs()}
         </div>
     )
